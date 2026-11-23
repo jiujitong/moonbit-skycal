@@ -1,0 +1,6 @@
+import {
+  "jiujitong/skycal",
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")

@@ -1,0 +1,134 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "jiujitong/skycal"
+
+// Values
+pub const SYNODIC_MONTH : Double = 29.530588853
+
+pub fn acos_deg(Double) -> Double
+
+pub fn asin_deg(Double) -> Double
+
+pub fn astronomical_twilight(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
+
+pub fn atan2_deg(Double, Double) -> Double
+
+pub fn civil_twilight(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
+
+pub fn cos_deg(Double) -> Double
+
+pub fn deg2rad(Double) -> Double
+
+pub fn format_lat(Double) -> String
+
+pub fn format_lon(Double) -> String
+
+pub fn format_minutes(Double) -> String
+
+pub fn from_mjd(Double) -> Double
+
+pub fn golden_hours(Int32, Int32, Int32, GeoPos) -> GoldenHours?
+
+pub fn jd_to_datetime(Double) -> (Int32, Int32, Int32, Int32, Int32, Int32)
+
+pub fn jd_to_local_string(Double, Double) -> String
+
+pub fn jd_to_string(Double) -> String
+
+pub fn julian_centuries(Double) -> Double
+
+pub fn julian_date(Int32, Int32, Int32, Int32, Int32, Int32) -> Double
+
+pub fn make_geo(Double, Double) -> GeoPos
+
+pub fn moon_phase(Double) -> MoonPhase
+
+pub fn nautical_twilight(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
+
+pub fn new_moon_jd(Int32) -> Double
+
+pub fn normalize_deg(Double) -> Double
+
+pub fn pad2(Int32) -> String
+
+pub fn rad2deg(Double) -> Double
+
+pub fn sin_deg(Double) -> Double
+
+pub fn sun_position(Double, GeoPos) -> SunPosition
+
+pub fn sun_times(Int32, Int32, Int32, GeoPos) -> SunTimes?
+
+pub fn tan_deg(Double) -> Double
+
+pub fn to_mjd(Double) -> Double
+
+pub fn wrap_deg(Double) -> Double
+
+// Errors
+
+// Types and methods
+pub struct GeoPos {
+  lat : Double
+  lon : Double
+}
+
+pub struct GoldenHours {
+  morning_start : Double
+  morning_end : Double
+  evening_start : Double
+  evening_end : Double
+}
+pub fn GoldenHours::get_evening_end(Self) -> Double
+pub fn GoldenHours::get_evening_start(Self) -> Double
+pub fn GoldenHours::get_morning_end(Self) -> Double
+pub fn GoldenHours::get_morning_start(Self) -> Double
+
+pub struct MoonPhase {
+  elongation : Double
+  phase_angle : Double
+  illumination : Double
+  age_days : Double
+  phase : Phase
+}
+pub fn MoonPhase::get_age_days(Self) -> Double
+pub fn MoonPhase::get_elongation(Self) -> Double
+pub fn MoonPhase::get_illumination(Self) -> Double
+pub fn MoonPhase::get_phase(Self) -> Phase
+pub fn MoonPhase::get_phase_angle(Self) -> Double
+
+pub enum Phase {
+  NewMoon
+  WaxingCrescent
+  FirstQuarter
+  WaxingGibbous
+  FullMoon
+  WaningGibbous
+  LastQuarter
+  WaningCrescent
+}
+pub fn Phase::name(Self) -> String
+
+pub struct SunPosition {
+  altitude : Double
+  azimuth : Double
+  declination : Double
+  right_ascension : Double
+}
+pub fn SunPosition::get_altitude(Self) -> Double
+pub fn SunPosition::get_azimuth(Self) -> Double
+pub fn SunPosition::get_declination(Self) -> Double
+pub fn SunPosition::get_right_ascension(Self) -> Double
+
+pub struct SunTimes {
+  sunrise : Double
+  sunset : Double
+  solar_noon : Double
+}
+pub fn SunTimes::daylight_minutes(Self) -> Double
+pub fn SunTimes::get_solar_noon(Self) -> Double
+pub fn SunTimes::get_sunrise(Self) -> Double
+pub fn SunTimes::get_sunset(Self) -> Double
+
+// Type aliases
+
+// Traits
