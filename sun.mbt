@@ -86,39 +86,15 @@ pub fn SunPosition::get_right_ascension(self : SunPosition) -> Double {
   self.right_ascension
 }
 
-// Minutes since 00:00 UTC of the Julian day containing jd.
-
-///|
-fn utc_minutes(jd : Double) -> Double {
-  // JD x.0 = 12:00 UTC, so add half a day before taking the fraction
-  let frac = (jd + 0.5) % 1.0
-  let mut m = frac * 1440.0
-  if m < 0.0 {
-    m = m + 1440.0
-  }
-  m
-}
-
 ///|
 pub fn sun_position(jd : Double, pos : GeoPos) -> SunPosition {
   let params = solar_params(jd)
-  // True solar time (minutes)
-  let tst = utc_minutes(jd) + params.equation_of_time + 4.0 * pos.lon
-  // Hour angle, degrees; 0 at local solar noon, positive after noon
-  let ha = wrap_deg(tst / 4.0 - 180.0)
-  // Altitude
-  let sin_alt = sin_deg(pos.lat) * sin_deg(params.declination) +
-    cos_deg(pos.lat) * cos_deg(params.declination) * cos_deg(ha)
-  let altitude = asin_deg(clamp(sin_alt, -1.0, 1.0))
-  // Azimuth measured from north, clockwise (NOAA formula)
-  let cos_az = (
-      sin_deg(params.declination) - sin_deg(altitude) * sin_deg(pos.lat)
-    ) /
-    (cos_deg(altitude) * cos_deg(pos.lat))
-  let mut azimuth = acos_deg(clamp(cos_az, -1.0, 1.0))
-  if ha > 0.0 {
-    azimuth = 360.0 - azimuth
-  }
+  let (altitude, azimuth) = equatorial_to_horizontal(
+    params.right_ascension,
+    params.declination,
+    jd,
+    pos,
+  )
   SunPosition::{
     altitude,
     azimuth,
@@ -128,14 +104,18 @@ pub fn sun_position(jd : Double, pos : GeoPos) -> SunPosition {
 }
 
 ///|
-fn clamp(x : Double, lo : Double, hi : Double) -> Double {
-  if x < lo {
-    lo
-  } else if x > hi {
-    hi
-  } else {
-    x
-  }
+// Apparent ecliptic longitude of the Sun, degrees [0, 360). This is the
+// quantity used by the solar terms (节气) calculation.
+pub fn solar_apparent_longitude(jd : Double) -> Double {
+  let t = julian_centuries(jd)
+  let l0 = normalize_deg(280.46646 + 36000.76983 * t + 0.0003032 * t * t)
+  let m = 357.52911 + 35999.05029 * t - 0.0001537 * t * t
+  let c = (1.914602 - 0.004817 * t - 0.000014 * t * t) * sin_deg(m) +
+    (0.019993 - 0.000101 * t) * sin_deg(2.0 * m) +
+    0.000289 * sin_deg(3.0 * m)
+  let true_long = l0 + c
+  let omega = 125.04 - 1934.136 * t
+  normalize_deg(true_long - 0.00569 - 0.00478 * sin_deg(omega))
 }
 
 ///|
