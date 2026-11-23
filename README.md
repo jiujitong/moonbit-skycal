@@ -1,6 +1,7 @@
 # skycal
 
 [![CI](https://github.com/jiujitong/moonbit-skycal/actions/workflows/ci.yml/badge.svg)](https://github.com/jiujitong/moonbit-skycal/actions)
+[![mooncakes](https://img.shields.io/badge/mooncakes-jiujitong%2Fskycal_0.1.0-blue)](https://mooncakes.io/docs/jiujitong/skycal)
 
 **A pure MoonBit astronomy & calendar library** — Julian dates, sunrise/sunset, solar & lunar positions, twilight windows, moon phases, 24 solar terms, planetary positions and calendar conversions, with deterministic, fully testable algorithms.
 
@@ -74,6 +75,9 @@ All instants are represented as Julian Dates (`Double`, UTC). Use `jd_to_datetim
 ```bash
 moon run cmd/main                                # worked example (Beijing, 2026-06-21)
 moon run cmd/main -- 35.6762 139.6503 9 2026 12 21   # Tokyo winter solstice
+moon run cmd/main -- moon 2026 11 23             # moon phase + moonrise/transit/moonset
+moon run cmd/main -- moon 31.23 121.47 8 2026 12 21   # moon detail for Shanghai
+moon run cmd/main -- terms 2026                  # 24 solar terms table (chronological)
 ```
 
 ## Accuracy
