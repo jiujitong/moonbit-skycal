@@ -19,4 +19,4 @@ keywords = [
 
 preferred_target = "wasm"
 
-description = "A pure MoonBit astronomical calculations library: Julian dates, sunrise/sunset, solar position, twilight, golden hour and moon phases."
+description = "A pure MoonBit astronomy & calendar library: Julian dates, sunrise/sunset, solar/lunar positions, twilight, golden hours, moon phases, moonrise/moonset, sidereal time, 24 solar terms, planetary positions, Julian/Unix calendar conversions and annual daylight statistics."
