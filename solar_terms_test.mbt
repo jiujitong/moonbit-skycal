@@ -1,4 +1,4 @@
-﻿///|
+///|
 // Solar term tests. Physical anchors: equinoxes/solstices and the
 // self-consistency of the crossing (longitude at the solved instant must
 // match the target within a fraction of a degree ≈ seconds of time).

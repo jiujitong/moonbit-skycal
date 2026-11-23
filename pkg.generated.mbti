@@ -2,7 +2,13 @@
 package "jiujitong/skycal"
 
 // Values
+pub const SOLAR_TERM_COUNT : Int32 = 24
+
+pub const SOLAR_TERM_DEG : Double = 15.0
+
 pub const SYNODIC_MONTH : Double = 29.530588853
+
+pub const UNIX_EPOCH_JD : Double = 2440587.5
 
 pub fn acos_deg(Double) -> Double
 
@@ -16,7 +22,15 @@ pub fn civil_twilight(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
 
 pub fn cos_deg(Double) -> Double
 
+pub fn daylight_table(Int32, GeoPos) -> Array[(Int32, Double?)]
+
+pub fn days_in_month(Int32, Int32) -> Int32
+
 pub fn deg2rad(Double) -> Double
+
+pub fn ecliptic_to_equatorial(Double, Double, Double) -> (Double, Double)
+
+pub fn equatorial_to_horizontal(Double, Double, Double, GeoPos) -> (Double, Double)
 
 pub fn format_lat(Double) -> String
 
@@ -26,21 +40,51 @@ pub fn format_minutes(Double) -> String
 
 pub fn from_mjd(Double) -> Double
 
+pub fn from_unix_seconds(Double) -> (Int32, Int32, Int32, Int32, Int32, Int32)
+
+pub fn gmst(Double) -> Double
+
 pub fn golden_hours(Int32, Int32, Int32, GeoPos) -> GoldenHours?
 
+pub fn horizontal_to_equatorial(Double, Double, Double, GeoPos) -> (Double, Double)
+
 pub fn jd_to_datetime(Double) -> (Int32, Int32, Int32, Int32, Int32, Int32)
+
+pub fn jd_to_jdn(Double) -> Int32
+
+pub fn jd_to_julian_calendar(Double) -> (Int32, Int32, Int32)
 
 pub fn jd_to_local_string(Double, Double) -> String
 
 pub fn jd_to_string(Double) -> String
 
+pub fn jd_to_unix_seconds(Double) -> Double
+
+pub fn jdn_to_jd(Int32) -> Double
+
+pub fn julian_calendar_to_jd(Int32, Int32, Int32) -> Double
+
 pub fn julian_centuries(Double) -> Double
 
 pub fn julian_date(Int32, Int32, Int32, Int32, Int32, Int32) -> Double
 
+pub fn jupiter() -> Planet
+
+pub fn local_sidereal_time(Double, Double) -> Double
+
 pub fn make_geo(Double, Double) -> GeoPos
 
+pub fn mars() -> Planet
+
+pub fn mercury() -> Planet
+
+pub fn moon_altaz(Double, GeoPos) -> (Double, Double)
+
 pub fn moon_phase(Double) -> MoonPhase
+
+pub fn moon_position(Double) -> MoonPosition
+
+pub fn moon_times(Int32, Int32, Int32, GeoPos) -> MoonTimes?
 
 pub fn nautical_twilight(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
 
@@ -48,13 +92,31 @@ pub fn new_moon_jd(Int32) -> Double
 
 pub fn normalize_deg(Double) -> Double
 
+pub fn obliquity(Double) -> Double
+
 pub fn pad2(Int32) -> String
+
+pub fn planet_altaz(Planet, Double, GeoPos) -> (Double, Double)
+
+pub fn planet_position(Planet, Double) -> PlanetPosition
 
 pub fn rad2deg(Double) -> Double
 
+pub fn refract(Double) -> Double
+
+pub fn saturn() -> Planet
+
 pub fn sin_deg(Double) -> Double
 
+pub fn solar_apparent_longitude(Double) -> Double
+
+pub fn solar_term_name(Int32) -> String
+
+pub fn solar_terms(Int32) -> Array[SolarTerm]
+
 pub fn sun_position(Double, GeoPos) -> SunPosition
+
+pub fn sun_rise_set_precise(Int32, Int32, Int32, GeoPos) -> (Double, Double)?
 
 pub fn sun_times(Int32, Int32, Int32, GeoPos) -> SunTimes?
 
@@ -62,7 +124,15 @@ pub fn tan_deg(Double) -> Double
 
 pub fn to_mjd(Double) -> Double
 
+pub fn to_unix_seconds(Int32, Int32, Int32, Int32, Int32, Int32) -> Double
+
+pub fn unix_seconds_to_jd(Double) -> Double
+
+pub fn venus() -> Planet
+
 pub fn wrap_deg(Double) -> Double
+
+pub fn year_daylight(Int32, GeoPos) -> YearDaylight
 
 // Errors
 
@@ -96,6 +166,28 @@ pub fn MoonPhase::get_illumination(Self) -> Double
 pub fn MoonPhase::get_phase(Self) -> Phase
 pub fn MoonPhase::get_phase_angle(Self) -> Double
 
+pub struct MoonPosition {
+  longitude : Double
+  latitude : Double
+  distance : Double
+  right_ascension : Double
+  declination : Double
+}
+pub fn MoonPosition::get_declination(Self) -> Double
+pub fn MoonPosition::get_distance(Self) -> Double
+pub fn MoonPosition::get_latitude(Self) -> Double
+pub fn MoonPosition::get_longitude(Self) -> Double
+pub fn MoonPosition::get_right_ascension(Self) -> Double
+
+pub struct MoonTimes {
+  moonrise : Double?
+  moonset : Double?
+  transit : Double
+}
+pub fn MoonTimes::get_moonrise(Self) -> Double?
+pub fn MoonTimes::get_moonset(Self) -> Double?
+pub fn MoonTimes::get_transit(Self) -> Double
+
 pub enum Phase {
   NewMoon
   WaxingCrescent
@@ -107,6 +199,33 @@ pub enum Phase {
   WaningCrescent
 }
 pub fn Phase::name(Self) -> String
+
+pub enum Planet {
+  Mercury
+  Venus
+  Mars
+  Jupiter
+  Saturn
+}
+
+pub struct PlanetPosition {
+  right_ascension : Double
+  declination : Double
+  distance : Double
+  longitude : Double
+}
+pub fn PlanetPosition::get_declination(Self) -> Double
+pub fn PlanetPosition::get_distance(Self) -> Double
+pub fn PlanetPosition::get_longitude(Self) -> Double
+pub fn PlanetPosition::get_right_ascension(Self) -> Double
+
+pub struct SolarTerm {
+  index : Int32
+  jd : Double
+}
+pub fn SolarTerm::get_index(Self) -> Int32
+pub fn SolarTerm::get_jd(Self) -> Double
+pub fn SolarTerm::name(Self) -> String
 
 pub struct SunPosition {
   altitude : Double
@@ -128,6 +247,23 @@ pub fn SunTimes::daylight_minutes(Self) -> Double
 pub fn SunTimes::get_solar_noon(Self) -> Double
 pub fn SunTimes::get_sunrise(Self) -> Double
 pub fn SunTimes::get_sunset(Self) -> Double
+
+pub struct YearDaylight {
+  total_hours : Double
+  longest_day : Double
+  longest_date : (Int32, Int32)
+  shortest_day : Double
+  shortest_date : (Int32, Int32)
+  polar_night_days : Int32
+  polar_day_days : Int32
+}
+pub fn YearDaylight::get_longest_date(Self) -> (Int32, Int32)
+pub fn YearDaylight::get_longest_day(Self) -> Double
+pub fn YearDaylight::get_polar_day_days(Self) -> Int32
+pub fn YearDaylight::get_polar_night_days(Self) -> Int32
+pub fn YearDaylight::get_shortest_date(Self) -> (Int32, Int32)
+pub fn YearDaylight::get_shortest_day(Self) -> Double
+pub fn YearDaylight::get_total_hours(Self) -> Double
 
 // Type aliases
 

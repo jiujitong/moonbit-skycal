@@ -1,4 +1,4 @@
-﻿///|
+///|
 // Calendar conversion tests. Anchors: the Gregorian reform itself, the
 // Unix epoch, and historical Julian-calendar dates.
 

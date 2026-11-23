@@ -143,11 +143,18 @@ pub fn SunTimes::get_solar_noon(self : SunTimes) -> Double {
   self.solar_noon
 }
 
-// Daylight duration in minutes (0 for polar events reported via Option).
+// Daylight duration in minutes. When the scanned UTC day produces
+// out-of-order events (sunset before sunrise — the day contains the tail
+// of the previous day's night), one day is added so the value always
+// represents the interval from this sunrise to the following sunset.
 
 ///|
 pub fn SunTimes::daylight_minutes(self : SunTimes) -> Double {
-  (self.sunset - self.sunrise) * 1440.0
+  let mut span = self.sunset - self.sunrise
+  if span < 0.0 {
+    span = span + 1.0
+  }
+  span * 1440.0
 }
 
 // Zenith angle used by NOAA for sunrise/sunset: 90° + refraction + solar

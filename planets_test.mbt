@@ -1,4 +1,4 @@
-﻿///|
+///|
 // Planetary position tests. No single-instant published anchors are used;
 // instead the tests rely on hard physical invariants that are robust to the
 // ~0.5° accuracy of the JPL mean elements.
